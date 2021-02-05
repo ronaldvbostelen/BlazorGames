@@ -33,13 +33,12 @@ namespace BlazorBJ.Client.Game.States
             }
             
             await _game.Dealer.DealToPlayerAsync(_game.Player);
-            await _game.Dealer.DealToSelfAsync(true);
-            await _game.Dealer.DealToPlayerAsync(_game.Player);
             await _game.Dealer.DealToSelfAsync(false);
+            await _game.Dealer.DealToPlayerAsync(_game.Player);
+            await _game.Dealer.DealToSelfAsync(true);
             
             if (_game.Player.HasNaturalBlackjack || _game.Dealer.HasNaturalBlackjack)
             {
-                _game.Blackjack = true;
                 _game.State = _game.PayoutState;
             }
             else
@@ -85,7 +84,7 @@ namespace BlazorBJ.Client.Game.States
             throw new NotImplementedException();
         }
 
-        public Task<bool> DoublingDown()
+        public Task<bool> DoublingDownAsync()
         {
             throw new NotImplementedException();
         }

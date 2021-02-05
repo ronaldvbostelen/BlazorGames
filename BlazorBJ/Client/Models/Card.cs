@@ -28,5 +28,8 @@ namespace BlazorBJ.Client.Models
 
         public bool IsTenCard => Score == 10;
         public bool IsAce => Value == CardValue.Ace;
+
+        public override string ToString() =>
+            $"{Suit} ${Value} ${(IsVisible ? "Visible" : "Not visible")} : {ImageName}";
     }
 }

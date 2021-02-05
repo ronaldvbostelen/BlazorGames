@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using BlazorBJ.Client.Game.States;
 using BlazorBJ.Client.Game.States.Abstractions;
 using BlazorBJ.Client.Models;
@@ -7,9 +9,10 @@ namespace BlazorBJ.Client.Game
 {
     public class BlackjackGame
     {
-        public Player Player { get; }
-        public Dealer Dealer { get; }
-        public bool Blackjack { get; set; }
+        public List<string> Log { get; } 
+        public Player Player { get; private set; }
+        public Dealer Dealer { get; private set; }
+        public bool Started { get; set; }
         
         public IBjState BettingState { get; }
         public IBjState NotStartedState { get; }
@@ -19,10 +22,14 @@ namespace BlazorBJ.Client.Game
         public IBjState BlackjackState { get; }
         public IBjState PayoutState { get; }
         public IBjState DealerState { get; }
+        public IBjState EscortedOut { get; }
+
         public IBjState State { get; set; }
         
         public BlackjackGame(Dealer dealer, Player player)
         {
+            Log = new List<string>();
+            
             Dealer = dealer;
             Player = player;
             
@@ -34,8 +41,14 @@ namespace BlazorBJ.Client.Game
             BlackjackState = new BlackjackState(this);
             PayoutState = new PayoutState(this);
             DealerState = new DealerState(this);
-            
-            State = ShufflingState;
+            EscortedOut = new EscortedOutState(this);
+        }
+
+        public void LogMessage(string from, string msg) // TODO implement this in states
+        {
+            var logMsg = $"({Log.Count + 1}) {from}: [{msg}]";
+            Debug.WriteLine(logMsg);
+            Log.Add(logMsg);
         }
 
         public void MakeBet(decimal amount)
@@ -45,6 +58,7 @@ namespace BlazorBJ.Client.Game
 
         public void StartGame()
         {
+            State = NotStartedState;
             var start = State.Start();
         }
 
@@ -83,14 +97,22 @@ namespace BlazorBJ.Client.Game
             var insurance = State.TakeInsurance();
         }
 
-        public void PlayerDoubleDowns()
+        public async Task PlayerDoubleDownsAsync()
         {
-            var doubleDown = State.DoublingDown();
+            var doubleDown = await State.DoublingDownAsync();
         }
         
         public void ShuffleCards()
         {
             var shuffled = State.ShuffleCards();
+        }
+
+        public void NewGame()
+        {
+            Started = false;
+            State = NotStartedState;
+            Dealer = new Dealer();
+            Player = new Player();
         }
     }
 }

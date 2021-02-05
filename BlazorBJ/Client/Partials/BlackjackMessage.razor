@@ -1,0 +1,30 @@
+﻿@using BlazorBJ.Client.Game.States.Abstractions
+@using BlazorBJ.Client.Game.States
+
+
+@code {
+    [Parameter]
+    public IBjState State { get; set; }
+
+    [Parameter]
+    public decimal Bet { get; set; }
+}
+
+@if (State is DealingState)
+{
+    <span class="display-3 text-info">Dealing...</span>
+}
+@if (State is PlayingState || State is PayoutState)
+{
+    <span class="display-3 text-primary">$@Bet</span>
+}
+@if (State is ShufflingState)
+{
+    <span class="display-3 text-info">Shuffling...</span>
+}
+@if (State is EscortedOutState)
+{
+    <span class="display-3 text-danger">The House is having you escorted out.</span>
+    <br />
+    <span>You won the game! Thanks for playing!</span>
+}

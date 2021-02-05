@@ -83,11 +83,9 @@ namespace BlazorBJ.Client.Game.States
                 // PUSH (equal score)
             }
             
+            _game.Dealer.Cards.ForEach(x => x.IsVisible = true);
             _game.Player.Collect();
             
-            _game.Player.ClearHand();
-            _game.Dealer.ClearHand();
-            _game.State = _game.ShufflingState;
             return true;
         }
 
@@ -96,7 +94,7 @@ namespace BlazorBJ.Client.Game.States
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> DoublingDown()
+        public Task<bool> DoublingDownAsync()
         {
             throw new System.NotImplementedException();
         }

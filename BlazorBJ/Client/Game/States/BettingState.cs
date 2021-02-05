@@ -21,7 +21,7 @@ namespace BlazorBJ.Client.Game.States
             }
             
             _game.Player.Bet = bet;
-            _game.State = _game.NotStartedState;
+            _game.State = _game.DealingState;
             
             return true;
         }
@@ -71,7 +71,7 @@ namespace BlazorBJ.Client.Game.States
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> DoublingDown()
+        public Task<bool> DoublingDownAsync()
         {
             throw new System.NotImplementedException();
         }

@@ -65,7 +65,7 @@ namespace BlazorBJ.Client.Game.States
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> DoublingDown()
+        public Task<bool> DoublingDownAsync()
         {
             throw new System.NotImplementedException();
         }

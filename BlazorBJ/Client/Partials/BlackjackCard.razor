@@ -1,0 +1,15 @@
+﻿@using BlazorBJ.Client.Models;
+
+@code {
+    [Parameter]
+    public Card Card { get; set; }
+}
+
+@if (Card.IsVisible)
+{
+    <img class="blackjack-card img-fluid" src="images/blackjack/@(Card.ImageName).png" />
+}
+else
+{
+    <img class="blackjack-card img-fluid" src="images/blackjack/cardBack.png" />
+}

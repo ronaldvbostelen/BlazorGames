@@ -103,9 +103,9 @@ namespace BlazorBJ.Client.Game.States
             throw new System.NotImplementedException();
         }
 
-        public async Task<bool> DoublingDown()
+        public async Task<bool> DoublingDownAsync()
         {
-            if (_game.Player.Cards.Count != 2 || (_game.Player.Score > 8 && _game.Player.Score < 12) || _game.Player.Funds < _game.Player.Bet*2)
+            if (_game.Player.Cards.Count != 2 || !(_game.Player.Score > 8 && _game.Player.Score < 12) || _game.Player.Funds < _game.Player.Bet*2)
             {
                 return false;
             }

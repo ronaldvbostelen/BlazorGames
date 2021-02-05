@@ -15,6 +15,6 @@ namespace BlazorBJ.Client.Game.States.Abstractions
         void Collect();
         bool Pay();
         bool FlipCard();
-        Task<bool> DoublingDown();
+        Task<bool> DoublingDownAsync();
     }
 }

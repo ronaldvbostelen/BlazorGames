@@ -1,0 +1,30 @@
+﻿@using BlazorBJ.Client.Models
+
+@code {
+    [Parameter]
+    public Player Player { get; set; }
+}
+
+@{
+    string cssClass = "text-success";
+
+    if (Player.Funds < 100 && Player.Funds >= 50)
+        cssClass = "text-warning";
+    if (Player.Funds < 50)
+        cssClass = "text-danger";
+
+    string changeDisplay = "+$" + Player.Change;
+    string changeCss = "text-success";
+
+    if (Player.Change < 0M)
+    {
+        changeDisplay = "-$" + (Player.Change * -1);
+        changeCss = "text-danger";
+    }
+}
+
+<span class="display-3 @cssClass">$@Player.Funds</span>
+@if (Player.Change != 0)
+{
+    <span class="display-3 @changeCss">@changeDisplay</span>
+}

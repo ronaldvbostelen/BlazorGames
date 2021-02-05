@@ -70,7 +70,6 @@ namespace BlazorBJ.Client.Models
 
         public void ClearHand()
         {
-            HasStood = false;
             Cards.Clear();
         }
     }

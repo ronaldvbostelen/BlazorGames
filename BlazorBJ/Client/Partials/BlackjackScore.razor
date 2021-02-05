@@ -1,0 +1,16 @@
+﻿@using BlazorBJ.Client.Models;
+@using BlazorBJ.Client.Game.States.Abstractions
+@using BlazorBJ.Client.Game.States
+
+@code {
+    [Parameter]
+    public IBjState State { get; set; }
+    
+    [Parameter]
+    public Person Player { get; set; }
+}
+
+@if (!(State is BettingState) && !(State is NotStartedState) && !(State is ShufflingState))
+{
+    <span class="display-3 text-primary">@Player.ScoreDisplay</span>
+}

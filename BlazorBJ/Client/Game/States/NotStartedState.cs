@@ -20,8 +20,12 @@ namespace BlazorBJ.Client.Game.States
 
         public bool Start()
         {
-            _game.Blackjack = false;
-            _game.State = _game.DealingState;
+            _game.Player.ClearHand();
+            _game.Dealer.ClearHand();
+            _game.Player.HasStood = false;
+            _game.Started = true;
+            
+            _game.State = _game.ShufflingState;
             return true;
         }
 
@@ -65,7 +69,7 @@ namespace BlazorBJ.Client.Game.States
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> DoublingDown()
+        public Task<bool> DoublingDownAsync()
         {
             throw new System.NotImplementedException();
         }

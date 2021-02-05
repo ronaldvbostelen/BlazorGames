@@ -61,7 +61,7 @@
 }
 
 <div class="row">
-    <div class="col">
+    <div class="col-md-6 col-sm-12">
         <div>
             @{
                 int cardCnt = game.Dealer.Deck.Count + 1;
@@ -75,7 +75,7 @@
             }
         </div>
     </div>
-    <div class="col">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 Score Dealer: <BlackjackScore State="game.State" Player="game.Dealer" /><br/>
@@ -114,10 +114,10 @@ else
 }
 
 <div class="row"> 
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <BlackjackHand Cards="game.Player.Cards" />
     </div>
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 Score: <BlackjackScore State="game.State" Player="game.Player" /><br/>
@@ -198,122 +198,3 @@ else
         }
     </div>
 </div>
-
-@* <div class="row">  *@
-@*     <div class="col"> *@
-@*         <div> *@
-@*             @{ *@
-@*                 int cardCount = game.Dealer.Deck.Count + 1; *@
-@*             } *@
-@*             @while (cardCount > 0) *@
-@*             { *@
-@*                 <div class="blackjack-drawdeck"> *@
-@*                     <img src="images/blackjack/cardBack.png" /> *@
-@*                 </div> *@
-@*                 cardCount -= 13; *@
-@*             } *@
-@*         </div> *@
-@*     </div> *@
-@*     <div class="col"> *@
-@*         <BlackjackHand Cards="game.Dealer.Cards"/> *@
-@*     </div> *@
-@*     <div class="col"> *@
-@*         <BlackjackScore State="game.State" Player="game.Dealer" /> *@
-@*     </div> *@
-@* </div> *@
-
-@* <div class="row">  *@
-@*     <div class="col"> *@
-@*         <BlackjackFunds Player="game.Player"/> *@
-@*     </div> *@
-@*     <div class="col"> *@
-@*         @if (game.State is PayoutState) *@
-@*         { *@
-@*             <BlackjackHandResult Player="game.Player" Dealer="game.Dealer" /> *@
-@*         } *@
-@*         @if(game.State is DealingState || game.State is ShufflingState   || game.State is PlayingState) *@
-@*         { *@
-@*             <BlackjackMessage State="game.State" Bet="game.Player.Bet"/> *@
-@*         } *@
-@*     </div> *@
-@*     <div class="col"> *@
-@*         @if (game.Player.Funds < 10) *@
-@*         { *@
-@*             <span class="display-3 text-danger">Out of money!</span> *@
-@*         } *@
-@*     </div> *@
-@* </div> *@
-
-@* <div class="row">  *@
-@*     <div class="col"> *@
-@*         @if(!game.Started || game.State is PayoutState) *@
-@*         { *@
-@*         <button class="btn btn-secondary" *@
-@*                 @onclick="() => { game.StartGame(); game.ShuffleCards(); }"> *@
-@*             @(game.Started ? "Keep going!" : "Start Game") *@
-@*         </button> *@
-@*         } *@
-@*         @if (game.Player.Funds < 10) *@
-@*         { *@
-@*             <button class="btn btn-warning" @onclick="() => game.NewGame()">New game?</button> *@
-@*         } *@
-@*         @if (game.State is BettingState) *@
-@*         { *@
-@*             @if (game.Player.Funds < 10) *@
-@*             { *@
-@*                 <span class="display-3 text-danger">Out of money!</span> *@
-@*             } *@
-@*             @if (game.Player.Funds >= 10) *@
-@*             { *@
-@*                 <button class="btn btn-primary" @onclick="(async() => await MakeBetAndDealAsync(10))"> *@
-@*                     Bet $10 *@
-@*                 </button> *@
-@*             } *@
-@*             @if (game.Player.Funds >= 20) *@
-@*             { *@
-@*                 <button class="btn btn-primary" @onclick="(async() => await MakeBetAndDealAsync(20))"> *@
-@*                     Bet $20 *@
-@*                 </button> *@
-@*             } *@
-@*             @if (game.Player.Funds >= 50) *@
-@*             { *@
-@*                 <button class="btn btn-primary" @onclick="(async() => await MakeBetAndDealAsync(50))"> *@
-@*                     Bet $50 *@
-@*                 </button> *@
-@*             } *@
-@*         } *@
-@*         @if (!game.Player.IsBusted && game.State is PlayingState && !game.Player.HasStood) *@
-@*         { *@
-@*             <button class="btn btn-primary" @onclick="async () => await PlayerStandAsync()"> *@
-@*                 Stand *@
-@*             </button> *@
-@*             <button class="btn btn-primary" @onclick="async () => { await HitPlayerAsync(); }"> *@
-@*                 Hit *@
-@*             </button> *@
-@* *@
-@*             @if (game.Player.CanDoubleDown) *@
-@*             { *@
-@*                 <br /> *@
-@*                 <button class="btn btn-warning"  *@
-@*                         @onclick="async() =>await PlayerDoublingDownAsync()"> *@
-@*                     Double Down *@
-@*                 </button> *@
-@*             } *@
-@* *@
-@*             @if (game.Dealer.HasAceShowing && !game.Player.HasInsurance) *@
-@*             { *@
-@*                 <br /> *@
-@*                 <button class="btn btn-warning"  *@
-@*                         @onclick="() => game.PlayerTakesInsurance()"> *@
-@*                     Insurance ($@(game.Player.Bet / 2)) *@
-@*                 </button> *@
-@*             } *@
-@*         } *@
-@*     </div> *@
-@*     <div class="col"> *@
-@*         <BlackjackHand Cards="game.Player.Cards" /> *@
-@*     </div> *@
-@*     <div class="col"> *@
-@*         <BlackjackScore State="game.State" Player="game.Player" /> *@
-@*     </div> *@
-@* </div> *@

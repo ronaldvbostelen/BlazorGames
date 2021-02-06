@@ -78,12 +78,7 @@
     <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
-                Score Dealer: <BlackjackScore State="game.State" Player="game.Dealer" /><br/>
-                @* Score Player: <BlackjackScore State="game.State" Player="game.Player" /> *@
-            @* </div> *@
-            @* <div class="card-body"> *@
-                @* Funds: <BlackjackFunds Player="game.Player"/><br/> *@
-                @* Bet: <BlackjackMessage State="game.State" Bet="game.Player.Bet"/> *@
+                Score Dealer: <BlackjackScore State="game.State" Player="game.Dealer" />
             </div>
         </div>
     </div>
@@ -129,15 +124,19 @@ else
     <div class="col-12">
         @if(!game.Started || game.State is PayoutState)
         {
-        <button class="btn btn-secondary"
-                @onclick="() => { game.StartGame(); game.ShuffleCards(); }">
-            @(game.Started ? "Keep going!" : "Start Game")
-        </button>
+            @if (game.Player.Funds < 10)
+            {
+                <button class="btn btn-warning" @onclick="() => game.NewGame()">New game?</button>
+            }
+            else
+            {
+                <button class="btn btn-secondary"
+                        @onclick="() => { game.StartGame(); game.ShuffleCards(); }">
+                    @(game.Started ? "Keep going!" : "Start Game")
+                </button>        
+            }
         }
-        @if (game.Player.Funds < 10)
-        {
-            <button class="btn btn-warning" @onclick="() => game.NewGame()">New game?</button>
-        }
+
         @if (game.State is BettingState)
         {
             @if (game.Player.Funds < 10)

@@ -6,10 +6,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await setTitle();
+        await SetTitleAsync();
     }
 
-    private async Task setTitle()
+    private async Task SetTitleAsync()
     {
         await _jsRuntime.InvokeVoidAsync("setTitle", Title );
     }

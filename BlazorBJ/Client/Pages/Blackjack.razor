@@ -1,16 +1,24 @@
 ﻿@page "/blackjack"
 
+@inject IJSRuntime _jsRuntime;
+
 @using BlazorBJ.Client.Models;
 @using BlazorBJ.Client.Game;
 @using BlazorBJ.Client.Game.States
 
+<PageTitle Title="Play Blackjack  ♠ ♥ ♣ ♦" />
 
-<h1>Play Blackjack  ♠ ♥ ♦ ♣</h1>
 
 @code {
     BlackjackGame game = new BlackjackGame(new Dealer(), new Player());
     TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
     bool waitForInsurance;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _jsRuntime.InvokeVoidAsync("scrollToBottom" );
+        await base.OnAfterRenderAsync(firstRender);
+    }
 }
 
 @functions
@@ -19,6 +27,7 @@
     {
         game.MakeBet(amount);
         await game.InitialDealingAsync();
+        StateHasChanged();
 
         if (game.Dealer.HasAceShowing)
         {
@@ -27,13 +36,14 @@
             game.PlayerInsurance(r);
             tcs = new TaskCompletionSource<bool>();
             waitForInsurance = false;
+            StateHasChanged();
         }
       
         if (game.Player.HasNaturalBlackjack || game.Dealer.HasNaturalBlackjack)
         {
             game.Payout();
+            StateHasChanged();
         }
-        StateHasChanged();
     }
 
     async Task HitPlayerAsync()
@@ -85,29 +95,30 @@
             }
         </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-        <div class="card">
-            <div class="card-body">
-                Score Dealer: <BlackjackScore State="game.State" Player="game.Dealer" />
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="row">
+
     <div class="col-12 justify-content-center">
         <img src="images/blackjack/dealer.png"/>
     </div>
-    <div class="col-12 justify-content-center">
+    <div class="col-12">
+        <div class="card m-1">
+            <div class="card-body">
+                Score: <BlackjackScore State="game.State" Player="game.Dealer" />
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
         <BlackjackHand Cards="game.Dealer.Cards"/>
     </div>
 </div>
 
 @if (game.State is PayoutState)
 {
-    <div class="row"> 
+    <div class="row">
         <div class="col">
-            <BlackjackHandResult Player="game.Player" Dealer="game.Dealer" />
+            <BlackjackHandResult Player="game.Player" Dealer="game.Dealer"/>
         </div>
     </div>
 }
@@ -118,18 +129,9 @@ else
     </div>
 }
 
-<div class="row"> 
-    <div class="col-md-6 col-sm-12">
+<div class="row">
+    <div class="col-12">
         <BlackjackHand Cards="game.Player.Cards" />
-    </div>
-    <div class="col-md-6 col-sm-12">
-        <div class="card">
-            <div class="card-body align-middle">
-                Score: <BlackjackScore State="game.State" Player="game.Player" /><br/>
-                Funds: <BlackjackFunds Player="game.Player"/><br/>
-                Bet: <BlackjackMessage Game="game" />
-            </div>
-        </div>
     </div>
     <div class="col-12">
         @if(!game.Started || game.State is PayoutState)
@@ -203,10 +205,20 @@ else
             }
         }
     </div>
-    <div class="col-12">
+    
         @if (game.Player.Funds < 10)
         {
-            <span class="display-3 text-danger">Out of money!</span>
+            <div class="col-12">
+             <span class="display-3 text-danger">Out of money!</span>
+         </div>
         }
+        <div class="col-12">
+        <div class="card m-1">
+            <div class="card-body">
+                Score: <BlackjackScore State="game.State" Player="game.Player" /><br/>
+                Funds: <BlackjackFunds Player="game.Player"/><br/>
+                Bet: <BlackjackMessage Game="game" />
+            </div>
+        </div>
     </div>
 </div>

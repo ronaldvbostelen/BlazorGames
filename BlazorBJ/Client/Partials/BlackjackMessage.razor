@@ -11,23 +11,23 @@
 
 @if (Game.State is DealingState)
 {
-    <span class="display-3 text-secondary">Dealing...</span>
+    <span class="text-secondary">Dealing...</span>
 }
 @if (Game.State is PlayingState || Game.State is PayoutState)
 {
-    <span class="display-3" style="color: orange">$@Game.Player.Bet</span>
+    <span style="color: orange">$@Game.Player.Bet</span>
     @if (Game.Player.HasInsurance)
     {
-        <span class="@(Game.Dealer.HasNaturalBlackjack ? "display-4 text-success" :  "display-4 text-danger")"> (@Game.Player.InsuranceBet)</span>
+        <span class="@(Game.Dealer.HasNaturalBlackjack ? "text-success" :  "text-danger")"> (@Game.Player.InsuranceBet)</span>
     }
 }
 @if (Game.State is ShufflingState)
 {
-    <span class="display-3 text-secondary">Shuffling...</span>
+    <span class="text-secondary">Shuffling...</span>
 }
 @if (Game.State is EscortedOutState)
 {
-    <span class="display-3 text-danger">The House is having you escorted out.</span>
+    <span class=" text-danger">The House is having you escorted out.</span>
     <br/>
     <span>You won the game! Thanks for playing!</span>
 }

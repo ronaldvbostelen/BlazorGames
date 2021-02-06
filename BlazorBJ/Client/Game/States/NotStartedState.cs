@@ -54,7 +54,12 @@ namespace BlazorBJ.Client.Game.States
         {
             throw new System.NotImplementedException();
         }
-        
+
+        public bool TakeNoInsurance()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool Pay()
         {
             throw new System.NotImplementedException();

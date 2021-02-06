@@ -79,6 +79,20 @@ namespace BlazorBJ.Client.Game.States
             return true;
         }
         
+        public bool TakeNoInsurance()
+        {
+            if (!_game.Dealer.HasAceShowing)
+            {
+                return false;
+            }
+            
+            if (_game.Dealer.HasNaturalBlackjack)
+            {
+                _game.State = _game.PayoutState;
+            }
+            return true;
+        }
+        
         public bool Pay()
         {
             throw new System.NotImplementedException();

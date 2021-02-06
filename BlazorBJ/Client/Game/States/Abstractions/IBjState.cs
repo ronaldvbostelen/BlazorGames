@@ -12,6 +12,7 @@ namespace BlazorBJ.Client.Game.States.Abstractions
         Task<bool> HitAsync();
         bool Stand();
         bool TakeInsurance();
+        bool TakeNoInsurance();
         bool Pay();
         bool FlipCard();
         Task<bool> DoublingDownAsync();

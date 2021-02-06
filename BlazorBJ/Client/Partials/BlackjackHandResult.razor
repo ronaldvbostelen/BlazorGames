@@ -24,9 +24,13 @@ else if (Dealer.IsBusted || Player.Score > Dealer.Score)
 {
     <h1 class="display-3 text-success">Win!</h1>
 }
-else if (Dealer.Score > Player.Score)
+else if (Dealer.Score > Player.Score || (Dealer.HasNaturalBlackjack && !Player.HasNaturalBlackjack && !Player.HasInsurance))
 {
     <h1 class="display-3 text-danger">Lose...</h1>
+}
+else if (Dealer.HasNaturalBlackjack && !Player.HasNaturalBlackjack && Player.HasInsurance)
+{
+    <h1 class="display-3 text-info">You chose wisely...</h1>
 }
 else if (Player.Score == Dealer.Score)
 {

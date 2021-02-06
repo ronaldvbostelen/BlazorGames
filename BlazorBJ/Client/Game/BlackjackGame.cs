@@ -92,9 +92,16 @@ namespace BlazorBJ.Client.Game
             }
         }
 
-        public void PlayerTakesInsurance()
+        public void PlayerInsurance(bool takeInsurance)
         {
-            var insurance = State.TakeInsurance();
+            if (takeInsurance)
+            {
+                var insurance = State.TakeInsurance();
+            }
+            else
+            {
+                var noInsurance = State.TakeNoInsurance();
+            }
         }
 
         public async Task PlayerDoubleDownsAsync()

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using BlazorBJ.Client.Game.States.Abstractions;
 
 namespace BlazorBJ.Client.Game.States
@@ -73,26 +74,11 @@ namespace BlazorBJ.Client.Game.States
 
             if (_game.Dealer.HasNaturalBlackjack)
             {
-                if (_game.Player.HasInsurance)
-                {
-                    _game.Player.Change += (2 * _game.Player.InsuranceBet);
-                }
-
                 _game.State = _game.PayoutState;
             }
-            else
-            {
-                _game.Player.Change -= _game.Player.InsuranceBet;
-            }
-
             return true;
         }
-
-        public void Collect()
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public bool Pay()
         {
             throw new System.NotImplementedException();

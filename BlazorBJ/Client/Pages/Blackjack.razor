@@ -19,7 +19,7 @@
         StateHasChanged();
         await game.InitialDealingAsync();
         StateHasChanged();
-        if (game.Player.HasNaturalBlackjack || game.Dealer.HasNaturalBlackjack)
+        if (game.Player.HasNaturalBlackjack)
         {
             game.Payout();
             StateHasChanged();
@@ -57,6 +57,17 @@
         StateHasChanged();
         game.Payout();
         StateHasChanged();
+    }
+
+    void PlayerTakesInsurance()
+    {
+        game.PlayerTakesInsurance();
+        StateHasChanged();
+        if (game.Dealer.HasNaturalBlackjack)
+        {
+            game.Payout();
+            StateHasChanged();
+        }
     }
 }
 
@@ -117,7 +128,7 @@ else
             <div class="card-body">
                 Score: <BlackjackScore State="game.State" Player="game.Player" /><br/>
                 Funds: <BlackjackFunds Player="game.Player"/><br/>
-                Bet: <BlackjackMessage State="game.State" Bet="game.Player.Bet"/>
+                Bet: <BlackjackMessage Game="game" />
             </div>
         </div>
     </div>
@@ -145,19 +156,19 @@ else
             }
             @if (game.Player.Funds >= 10)
             {
-                <button class="btn btn-primary" @onclick="(async() => await MakeBetAndDealAsync(10))">
+                <button class="btn btn-primary btn-m" @onclick="(async() => await MakeBetAndDealAsync(10))">
                     Bet $10
                 </button>
             }
             @if (game.Player.Funds >= 20)
             {
-                <button class="btn btn-primary" @onclick="(async() => await MakeBetAndDealAsync(20))">
+                <button class="btn btn-primary btn-m" @onclick="(async() => await MakeBetAndDealAsync(20))">
                     Bet $20
                 </button>
             }
             @if (game.Player.Funds >= 50)
             {
-                <button class="btn btn-primary" @onclick="(async() => await MakeBetAndDealAsync(50))">
+                <button class="btn btn-primary btn-m" @onclick="(async() => await MakeBetAndDealAsync(50))">
                     Bet $50
                 </button>
             }
@@ -184,7 +195,7 @@ else
             {
                 <br />
                 <button class="btn btn-warning" 
-                        @onclick="() => game.PlayerTakesInsurance()">
+                        @onclick="() => PlayerTakesInsurance()">
                     Insurance ($@(game.Player.Bet / 2))
                 </button>
             }

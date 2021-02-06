@@ -46,12 +46,7 @@ namespace BlazorBJ.Client.Game.States
         {
             throw new System.NotImplementedException();
         }
-
-        public void Collect()
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public bool Pay()
         {
             throw new System.NotImplementedException();

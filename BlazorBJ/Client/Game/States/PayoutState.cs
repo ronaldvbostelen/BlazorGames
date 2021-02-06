@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using BlazorBJ.Client.Game.States.Abstractions;
+using BlazorBJ.Client.Models;
 
 namespace BlazorBJ.Client.Game.States
 {
@@ -46,43 +48,26 @@ namespace BlazorBJ.Client.Game.States
         {
             throw new System.NotImplementedException();
         }
-
-        public void Collect()
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public bool Pay()
         {
-            if (_game.Player.IsBusted || (_game.Player.Score < _game.Dealer.Score && !_game.Dealer.IsBusted))
+            if (_game.Player.HasNaturalBlackjack || _game.Dealer.HasNaturalBlackjack)
             {
-                _game.Player.Change = -_game.Player.Bet;
-                
+                _game.Player.Change = RolledBlackjack();
             }
-            else if (_game.Player.HasNaturalBlackjack || _game.Dealer.HasNaturalBlackjack)
+            else if (PlayerLost())
             {
-                if (_game.Player.HasNaturalBlackjack && !_game.Dealer.HasNaturalBlackjack)
-                {
-                    _game.Player.Change = 1.5M * _game.Player.Bet;
-                }   
-                else if (_game.Dealer.HasNaturalBlackjack)
-                {
-                    _game.Player.Change = -_game.Player.Bet;
-                }
-                else
-                {
-                    _game.Player.Change = _game.Player.Bet;
-                }
+                _game.Player.Change = -(_game.Player.Bet + _game.Player.InsuranceBet);
             }
-            else if (_game.Player.Score > _game.Dealer.Score || _game.Dealer.IsBusted)
+            else if (PlayerWon())
             {
-                _game.Player.Change = _game.Player.Bet;
+                _game.Player.Change = _game.Player.Bet - _game.Player.InsuranceBet;
             }
             else
             {
-                // PUSH (equal score)
+                _game.Player.Change = -_game.Player.InsuranceBet;
             }
-            
+    
             _game.Dealer.Cards.ForEach(x => x.IsVisible = true);
             _game.Player.Collect();
             
@@ -97,6 +82,32 @@ namespace BlazorBJ.Client.Game.States
         public Task<bool> DoublingDownAsync()
         {
             throw new System.NotImplementedException();
+        }
+
+        private decimal RolledBlackjack()
+        {
+            if (!_game.Player.HasNaturalBlackjack && !_game.Dealer.HasNaturalBlackjack ||
+                _game.Player.HasNaturalBlackjack && _game.Dealer.HasNaturalBlackjack)
+            {
+                return 0M;
+            }
+
+            if (_game.Dealer.HasNaturalBlackjack && !_game.Player.HasNaturalBlackjack)
+            {
+                return -_game.Player.Bet + (2 * _game.Player.InsuranceBet);
+            }
+
+            return _game.Player.Bet * 1.5M;
+        }
+
+        private bool PlayerLost()
+        {
+            return _game.Player.IsBusted || (_game.Player.Score < _game.Dealer.Score && !_game.Dealer.IsBusted);
+        }
+
+        private bool PlayerWon()
+        {
+            return (!_game.Player.IsBusted && _game.Player.Score > _game.Dealer.Score) ||_game.Dealer.IsBusted;
         }
     }
 }

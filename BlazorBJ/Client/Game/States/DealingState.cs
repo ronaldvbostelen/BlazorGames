@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorBJ.Client.Game.States.Abstractions;
 using BlazorBJ.Client.Models;
+using BlazorBJ.Client.Models.Enums;
 
 namespace BlazorBJ.Client.Game.States
 {
@@ -37,7 +38,7 @@ namespace BlazorBJ.Client.Game.States
             await _game.Dealer.DealToPlayerAsync(_game.Player);
             await _game.Dealer.DealToSelfAsync(true);
             
-            if (_game.Player.HasNaturalBlackjack || _game.Dealer.HasNaturalBlackjack)
+            if (_game.Player.HasNaturalBlackjack)
             {
                 _game.State = _game.PayoutState;
             }
@@ -66,14 +67,9 @@ namespace BlazorBJ.Client.Game.States
 
         public bool TakeInsurance()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
-
-        public void Collect()
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public bool Pay()
         {
             throw new System.NotImplementedException();

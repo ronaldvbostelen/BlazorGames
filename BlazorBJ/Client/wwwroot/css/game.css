@@ -17,3 +17,7 @@
 .blackjack-card:not(:first-child) {
     margin-left: -100px;
 }
+
+.btn-m {
+    margin-right: 5px;
+}

@@ -24,6 +24,7 @@ namespace BlazorBJ.Client.Game.States
             _game.Dealer.ClearHand();
             _game.Player.HasStood = false;
             _game.Started = true;
+            _game.Player.Change = _game.Player.Bet = _game.Player.InsuranceBet = 0M;
             
             _game.State = _game.ShufflingState;
             return true;
@@ -53,12 +54,7 @@ namespace BlazorBJ.Client.Game.States
         {
             throw new System.NotImplementedException();
         }
-
-        public void Collect()
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public bool Pay()
         {
             throw new System.NotImplementedException();

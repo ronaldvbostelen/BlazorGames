@@ -20,6 +20,7 @@ namespace BlazorBJ.Server
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("http://127.0.0.1:5010");
                     webBuilder.UseKestrel();
                     webBuilder.UseStartup<Startup>();
                 });
